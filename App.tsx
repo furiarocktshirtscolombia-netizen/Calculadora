@@ -1,16 +1,21 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { LiquorCalculator } from './components/LiquorCalculator';
 import { AIImageEditor } from './components/AIImageEditor';
-import { FileDown, Sparkles, Calculator as CalcIcon } from 'lucide-react';
+import { Sparkles, Calculator as CalcIcon } from 'lucide-react';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'calculator' | 'ai-editor'>('calculator');
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      {/* Brand Header with Logos */}
+      <header className="brand-header">
+        <img src="logos.png" alt="Rocoto · Hot Wings · Malanga" />
+      </header>
+
+      {/* Main Navigation Header */}
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
         <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="bg-amber-500 p-2 rounded-lg text-white">
