@@ -9,11 +9,6 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#f4f4f4] flex flex-col">
-      {/* Brand Header with Logos */}
-      <header className="brand-header">
-        <img src="logos.png" alt="Rocoto · Hot Wings · Malanga" />
-      </header>
-
       {/* Main Navigation Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
         <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
