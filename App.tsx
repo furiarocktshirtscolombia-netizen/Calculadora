@@ -3,6 +3,10 @@ import { LiquorCalculator } from './components/LiquorCalculator';
 import { Calculator as CalcIcon } from 'lucide-react';
 
 const App: React.FC = () => {
+  // ✅ Como tu imagen está en /public/avatar-maryluz.png
+  // Esta ruta funciona bien en GitHub Pages y Vercel.
+  const avatarSrc = `${import.meta.env.BASE_URL}avatar-maryluz.png`;
+
   return (
     <div className="min-h-screen bg-[#f4f4f4] flex flex-col">
       {/* Main Navigation Header */}
@@ -17,7 +21,6 @@ const App: React.FC = () => {
             </h1>
           </div>
 
-          {/* ✅ Sin pestañas (se quitó Editor AI) */}
           <div className="text-xs font-semibold text-gray-500 bg-gray-100 px-3 py-2 rounded-xl">
             Calculadora
           </div>
@@ -26,7 +29,7 @@ const App: React.FC = () => {
 
       <main className="flex-grow p-4 md:p-8">
         <div className="max-w-6xl mx-auto">
-          {/* ✅ Layout: Calculadora + Avatar */}
+          {/* Layout: Calculadora + Avatar */}
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-7 items-center">
             {/* Calculadora */}
             <div className="max-w-xl mx-auto lg:mx-0 w-full">
@@ -35,23 +38,16 @@ const App: React.FC = () => {
 
             {/* Avatar grande */}
             <div className="flex items-center justify-center lg:justify-end">
-              {/* ✅ Opción VIDEO (animado) */}
-              <video
-                src={`${import.meta.env.BASE_URL}assets/avatar-maryluz.webm`}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full max-w-[360px] rounded-[28px] shadow-lg"
-              />
-
-              {/* ✅ Si tu avatar es imagen, usa esto y borra el <video>:
               <img
-  src={`${import.meta.env.BASE_URL}avatar-maryluz.png`}
-  alt="Avatar Maryluz"
-  className="w-full max-w-[360px] rounded-[28px] shadow-lg"
-/>
-              */}
+                src={avatarSrc}
+                alt="Avatar Maryluz"
+                className="w-full max-w-[360px] rounded-[28px] shadow-lg"
+                onError={(e) => {
+                  // Si falla, deja una pista en consola para debug
+                  console.error('No se pudo cargar el avatar en:', avatarSrc);
+                  (e.currentTarget as HTMLImageElement).style.display = 'none';
+                }}
+              />
             </div>
           </div>
         </div>
@@ -67,3 +63,4 @@ const App: React.FC = () => {
 };
 
 export default App;
+
