@@ -7,7 +7,7 @@ export interface Liquor {
 
 export interface CalculationResult {
   value: number;
-  unit: 'oz' | 'ml';
+  unit: 'oz' | 'ml' | 'copas';
   liquidWeight: number;
   percentage?: number;
   totalCapacity?: number;

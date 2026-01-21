@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Liquor, CalculationResult } from '../types';
-import { OZ_TO_GRAMS, BEER_DENSITY } from '../constants';
+import { OZ_TO_GRAMS, BEER_DENSITY, WINE_DENSITY, ML_PER_GLASS } from '../constants';
 import { fetchDefaultExcel, parseExcel } from '../services/excelService';
 import { Search, Info, AlertCircle, RefreshCw, Upload, CheckCircle2 } from 'lucide-react';
 
@@ -66,13 +66,23 @@ export const LiquorCalculator: React.FC = () => {
     return n.includes('barril') || n.includes('cerveza') || n.includes('heineken');
   };
 
+  const isWineCopa = (name: string) => {
+    const n = name.toLowerCase();
+    // Check if it's a wine or includes keywords from the user list
+    return n.includes('vino') || n.includes('copa') || n.includes('bilbao') || n.includes('moras') || n.includes('rosaleda') || n.includes('tarapaca');
+  };
+
   const extractCapacityMl = (name: string) => {
     const up = name.toUpperCase().replace(',', '.');
-    // Match "20L", "20 L", "8 LTS", "1.5 L", "750 ML"
+    // Match "20L", "20 L", "8 LTS", "1.5 L", "750 ML", "75CL", "X1000"
     let m = up.match(/(\d+(?:\.\d+)?)\s*(ML|CC)\b/);
     if (m) return Math.round(parseFloat(m[1]));
+    m = up.match(/(\d+(?:\.\d+)?)\s*(CL)\b/);
+    if (m) return Math.round(parseFloat(m[1]) * 10);
     m = up.match(/(\d+(?:\.\d+)?)\s*(LTS|LITROS|LITRO|LT|L)\b/);
     if (m) return Math.round(parseFloat(m[1]) * 1000);
+    m = up.match(/X\s*(\d+(?:\.\d+)?)/);
+    if (m) return Math.round(parseFloat(m[1]));
     return null;
   };
 
@@ -101,16 +111,28 @@ export const LiquorCalculator: React.FC = () => {
     }
 
     const liquidWeight = weight - selectedLiquor.emptyWeight;
-    const isSpecial = isBeerOrBarrel(selectedLiquor.name);
-    
-    if (isSpecial) {
+    const name = selectedLiquor.name;
+    const capacity = extractCapacityMl(name);
+
+    if (isBeerOrBarrel(name)) {
       const ml = liquidWeight / BEER_DENSITY;
-      const capacity = extractCapacityMl(selectedLiquor.name);
       const percentage = capacity ? Math.min(100, (ml / capacity) * 100) : undefined;
       
       setResult({
         value: Math.round(ml),
         unit: 'ml',
+        liquidWeight: parseFloat(liquidWeight.toFixed(2)),
+        percentage: percentage ? parseFloat(percentage.toFixed(1)) : undefined,
+        totalCapacity: capacity || undefined
+      });
+    } else if (isWineCopa(name)) {
+      const ml = liquidWeight / WINE_DENSITY;
+      const copas = ml / ML_PER_GLASS;
+      const percentage = capacity ? Math.min(100, (ml / capacity) * 100) : undefined;
+
+      setResult({
+        value: parseFloat(copas.toFixed(1)),
+        unit: 'copas',
         liquidWeight: parseFloat(liquidWeight.toFixed(2)),
         percentage: percentage ? parseFloat(percentage.toFixed(1)) : undefined,
         totalCapacity: capacity || undefined
@@ -170,7 +192,7 @@ export const LiquorCalculator: React.FC = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
               <input
                 type="text"
-                placeholder="Buscar licor (Ron, Vodka, Barril...)"
+                placeholder="Buscar (Ron, Vino, Barril...)"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all outline-none"
@@ -218,7 +240,7 @@ export const LiquorCalculator: React.FC = () => {
             className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-green-200 transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-lg"
           >
             <CheckCircle2 size={22} />
-            Calcular {selectedLiquor && isBeerOrBarrel(selectedLiquor.name) ? 'Mililitros' : 'Onzas'}
+            Calcular {selectedLiquor ? (isBeerOrBarrel(selectedLiquor.name) ? 'Mililitros' : isWineCopa(selectedLiquor.name) ? 'Copas' : 'Onzas') : 'Resultado'}
           </button>
 
           {/* Messages */}
@@ -237,7 +259,7 @@ export const LiquorCalculator: React.FC = () => {
               style={{ backgroundColor: '#eafaf1', border: '1px solid #86efac' }}
             >
               <p className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#166534' }}>
-                {result.unit === 'oz' ? 'Onzas Netas' : 'Mililitros Netos'}
+                {result.unit === 'oz' ? 'Onzas Netas' : result.unit === 'ml' ? 'Mililitros Netos' : 'Copas'}
               </p>
               <p className="text-5xl font-black mb-3 tracking-tighter" style={{ color: '#15803d' }}>
                 {result.value}<span className="text-2xl ml-1 font-medium" style={{ color: '#15803d' }}>{result.unit}</span>
@@ -249,6 +271,9 @@ export const LiquorCalculator: React.FC = () => {
                     Líquido: <span className="font-black">{result.liquidWeight.toFixed(0)} g</span>
                     {result.percentage !== undefined && (
                       <> · <span className="font-black">{result.percentage}%</span> de {result.totalCapacity}ml</>
+                    )}
+                    {result.unit === 'copas' && (
+                      <> · <span className="font-black">{ML_PER_GLASS}ml/copa</span></>
                     )}
                   </p>
                 </div>
@@ -263,7 +288,7 @@ export const LiquorCalculator: React.FC = () => {
           <p className="text-[11px] leading-relaxed text-gray-500">
             Asegúrese de que la báscula esté correctamente nivelada y en ceros (TARA) antes de colocar la botella.
             <br />
-            <strong>Constantes:</strong> 1 oz ≈ {OZ_TO_GRAMS} g. 1 ml ≈ {BEER_DENSITY} g (Cerveza/Barril).
+            <strong>Constantes:</strong> 1 oz ≈ {OZ_TO_GRAMS} g. 1 ml ≈ {BEER_DENSITY} g (Cerveza/Barril). 1 copa ≈ {ML_PER_GLASS} ml (Vino).
           </p>
         </div>
       </div>
