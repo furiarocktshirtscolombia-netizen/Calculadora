@@ -1,17 +1,13 @@
-
-import React, { useState } from 'react';
+import React from 'react';
 import { LiquorCalculator } from './components/LiquorCalculator';
-import { AIImageEditor } from './components/AIImageEditor';
-import { Sparkles, Calculator as CalcIcon } from 'lucide-react';
+import { Calculator as CalcIcon } from 'lucide-react';
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'calculator' | 'ai-editor'>('calculator');
-
   return (
     <div className="min-h-screen bg-[#f4f4f4] flex flex-col">
       {/* Main Navigation Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="bg-amber-500 p-2 rounded-lg text-white">
               <CalcIcon size={24} />
@@ -21,40 +17,43 @@ const App: React.FC = () => {
             </h1>
           </div>
 
-          <nav className="flex gap-1 bg-gray-100 p-1 rounded-xl">
-            <button
-              onClick={() => setActiveTab('calculator')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeTab === 'calculator' 
-                  ? 'bg-white text-amber-600 shadow-sm' 
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              <CalcIcon size={18} />
-              <span>Calculadora</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('ai-editor')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeTab === 'ai-editor' 
-                  ? 'bg-white text-purple-600 shadow-sm' 
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              <Sparkles size={18} />
-              <span>Editor AI</span>
-            </button>
-          </nav>
+          {/* ✅ Sin pestañas (se quitó Editor AI) */}
+          <div className="text-xs font-semibold text-gray-500 bg-gray-100 px-3 py-2 rounded-xl">
+            Calculadora
+          </div>
         </div>
       </header>
 
       <main className="flex-grow p-4 md:p-8">
-        <div className="max-w-xl mx-auto">
-          {activeTab === 'calculator' ? (
-            <LiquorCalculator />
-          ) : (
-            <AIImageEditor />
-          )}
+        <div className="max-w-6xl mx-auto">
+          {/* ✅ Layout: Calculadora + Avatar */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-7 items-center">
+            {/* Calculadora */}
+            <div className="max-w-xl mx-auto lg:mx-0 w-full">
+              <LiquorCalculator />
+            </div>
+
+            {/* Avatar grande */}
+            <div className="flex items-center justify-center lg:justify-end">
+              {/* ✅ Opción VIDEO (animado) */}
+              <video
+                src={`${import.meta.env.BASE_URL}assets/avatar-maryluz.webm`}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full max-w-[360px] rounded-[28px] shadow-lg"
+              />
+
+              {/* ✅ Si tu avatar es imagen, usa esto y borra el <video>:
+              <img
+                src={`${import.meta.env.BASE_URL}assets/avatar-maryluz.png`}
+                alt="Avatar Maryluz"
+                className="w-full max-w-[360px] rounded-[28px] shadow-lg"
+              />
+              */}
+            </div>
+          </div>
         </div>
       </main>
 
