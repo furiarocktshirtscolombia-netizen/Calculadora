@@ -17,7 +17,7 @@ const App: React.FC = () => {
               <CalcIcon size={24} />
             </div>
             <h1 className="text-xl font-bold text-gray-800 tracking-tight hidden sm:block">
-              Mariluz Control Bar
+              MariluzControlBar
             </h1>
           </div>
 
