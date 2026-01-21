@@ -47,10 +47,10 @@ const App: React.FC = () => {
 
               {/* ✅ Si tu avatar es imagen, usa esto y borra el <video>:
               <img
-                src={`${import.meta.env.BASE_URL}assets/avatar-maryluz.png`}
-                alt="Avatar Maryluz"
-                className="w-full max-w-[360px] rounded-[28px] shadow-lg"
-              />
+  src={`${import.meta.env.BASE_URL}avatar-maryluz.png`}
+  alt="Avatar Maryluz"
+  className="w-full max-w-[360px] rounded-[28px] shadow-lg"
+/>
               */}
             </div>
           </div>
