@@ -1,0 +1,7 @@
+{
+  "name": "Liquor Calc & Creative Mixer",
+  "description": "A specialized tool for inventory management using bottle weights from Excel, featuring an AI-powered creative image editor.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
