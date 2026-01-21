@@ -191,7 +191,7 @@ export const LiquorCalculator: React.FC = () => {
                 <option value="">Seleccione una referencia...</option>
                 {filteredLiquors.map((l) => (
                   <option key={l.id} value={l.id}>
-                    {l.name} {l.emptyWeight ? `(${l.emptyWeight}g)` : '(Sin peso)'}
+                    {l.name}
                   </option>
                 ))}
               </select>
