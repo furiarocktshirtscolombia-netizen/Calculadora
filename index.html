@@ -8,6 +8,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     <style>
+      /* Fondo original */
+      body {
+        margin: 0;
+        background: #f4f4f4;
+        min-height: 100vh;
+      }
+
       /* Animación de aparición */
       @keyframes fadeScaleIn {
         from {
@@ -41,6 +48,11 @@
         height: auto;
         object-fit: contain;
       }
+
+      /* Sombra elegante para fondo claro */
+      .premium-shadow {
+        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.08);
+      }
     </style>
     <script type="importmap">
 {
@@ -54,7 +66,7 @@
 }
 </script>
   </head>
-  <body class="bg-gray-50 text-gray-900">
+  <body class="text-gray-900">
     <div id="root"></div>
   </body>
 </html>

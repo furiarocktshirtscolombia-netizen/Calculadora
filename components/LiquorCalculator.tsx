@@ -160,7 +160,7 @@ export const LiquorCalculator: React.FC = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
         <RefreshCw className="animate-spin text-amber-500 mb-4" size={48} />
-        <p className="text-gray-500">Cargando base de datos...</p>
+        <p className="text-gray-400">Cargando base de datos...</p>
       </div>
     );
   }
@@ -183,7 +183,7 @@ export const LiquorCalculator: React.FC = () => {
       )}
 
       {/* Main Form Card */}
-      <div className="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-3xl premium-shadow border border-gray-100 overflow-hidden">
         <div className="p-6 md:p-8 space-y-6">
           
           {/* Search & Select Section */}

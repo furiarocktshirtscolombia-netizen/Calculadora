@@ -8,7 +8,7 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'calculator' | 'ai-editor'>('calculator');
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-[#f4f4f4] flex flex-col">
       {/* Brand Header with Logos */}
       <header className="brand-header">
         <img src="logos.png" alt="Rocoto · Hot Wings · Malanga" />
@@ -64,9 +64,9 @@ const App: React.FC = () => {
       </main>
 
       {/* Footer Info */}
-      <footer className="py-6 text-center text-xs text-gray-400 border-t border-gray-100 bg-white">
+      <footer className="py-6 text-center text-xs text-gray-400 border-t border-gray-200 bg-white">
         <p>Desarrollado para entornos operativos de bar y restaurante.</p>
-        <p className="mt-1">Constante usada: 31.25 g ≈ 1 oz</p>
+        <p className="mt-1 text-gray-500">Constante usada: 31.25 g ≈ 1 oz</p>
       </footer>
     </div>
   );
