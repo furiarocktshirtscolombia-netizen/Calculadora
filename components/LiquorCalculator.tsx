@@ -223,7 +223,7 @@ export const LiquorCalculator: React.FC = () => {
           {/* Configuration Grid */}
           <div className="grid grid-cols-1 gap-4">
             <div>
-              <label className="block text-xs font-bold text-gray-400 uppercase mb-2 ml-1">Peso Lleno (gramos)</label>
+              <label className="block text-xs font-bold text-gray-400 uppercase mb-2 ml-1">Peso botella destapada en gramos</label>
               <input
                 type="number"
                 placeholder="0.00"
